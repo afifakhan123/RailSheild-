@@ -1,5 +1,5 @@
 # 🛡️ RailShield AI
-
+Detect • Predict • Protect
 ### Preventive Safety Intelligence for Indian Railway Stations
 
 RailShield AI is an AI-powered safety system designed to help identify potentially unsafe situations in railway stations **before** they become emergencies.
