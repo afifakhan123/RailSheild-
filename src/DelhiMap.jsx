@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import "./DelhiMap.css";
 
@@ -36,22 +35,48 @@ const COLORS = {
 export default function DelhiMap() {
   const [start, setStart] = useState("entrance");
   const [destination, setDestination] = useState("p8");
+
   const [showCctv, setShowCctv] = useState(true);
   const [showLighting, setShowLighting] = useState(true);
   const [showHelp, setShowHelp] = useState(true);
   const [showCrowd, setShowCrowd] = useState(true);
   const [showTrains, setShowTrains] = useState(true);
   const [showRoute, setShowRoute] = useState(true);
+
   const [notice, setNotice] = useState(
     "Select a platform to draw a route across the station plan."
   );
 
   const destinationNumber = Number(destination.replace("p", ""));
+
   const dest = platforms.find((p) => p.id === destinationNumber);
+
   const startPoint = startOptions.find((p) => p.value === start);
 
-  // Illustrative route through the concourse and connecting walkway.
-  // This is not surveyed indoor navigation.
+  const routeInstructions = [
+    {
+      title: `Start at ${startPoint.label}`,
+      detail: "Begin at your selected starting point.",
+      icon: "📍",
+    },
+    {
+      title: "Continue through the connecting walkway",
+      detail: "Follow the highlighted green demo route.",
+      icon: "➡️",
+    },
+    {
+      title: "Proceed toward the platform access",
+      detail: "Continue toward your selected platform area.",
+      icon: "↗️",
+    },
+    {
+      title: `Arrive at Platform ${destinationNumber}`,
+      detail: "You have reached your selected demo destination.",
+      icon: "🏁",
+    },
+  ];
+
+  // Illustrative route only, not surveyed indoor navigation.
   const routePoints =
     start === "entrance"
       ? `145,350 240,350 285,350 320,350 350,${dest.y} 860,${dest.y - 20}`
@@ -72,20 +97,29 @@ export default function DelhiMap() {
     }
 
     setNotice("Requesting location permission…");
+
     navigator.geolocation.getCurrentPosition(
-      () => setNotice(
-        "GPS received. Select your platform manually; outdoor GPS cannot reliably identify your indoor platform."
-      ),
-      () => setNotice(
-        "Location unavailable or permission denied. Select your starting point manually."
-      ),
-      { enableHighAccuracy: true, timeout: 10000 }
+      () => {
+        setNotice(
+          "GPS received. Select your platform manually; outdoor GPS cannot reliably identify your indoor platform."
+        );
+      },
+      () => {
+        setNotice(
+          "Location unavailable or permission denied. Select your starting point manually."
+        );
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+      }
     );
   }
 
   function selectPlatform(id) {
     setDestination(`p${id}`);
     setShowRoute(true);
+
     setNotice(
       `Platform ${id} selected. The green line shows an illustrative route on the station plan.`
     );
@@ -93,6 +127,7 @@ export default function DelhiMap() {
 
   function buildRoute() {
     setShowRoute(true);
+
     setNotice(
       `Showing demo route from ${startPoint.label} to Platform ${destinationNumber}.`
     );
@@ -105,10 +140,17 @@ export default function DelhiMap() {
           <div className="rs-station-eyebrow">
             RAILSHIELD AI / ARCHITECTURAL SAFETY MAP
           </div>
+
           <h2>New Delhi Railway Station</h2>
+
           <p>NDLS · Interactive station-plan prototype</p>
         </div>
-        <button className="rs-location-button" onClick={requestLocation}>
+
+        <button
+          type="button"
+          className="rs-location-button"
+          onClick={requestLocation}
+        >
           ◎ Locate me
         </button>
       </header>
@@ -122,15 +164,22 @@ export default function DelhiMap() {
       <div className="rs-station-controls">
         <label>
           Starting point
-          <select value={start} onChange={(e) => setStart(e.target.value)}>
+
+          <select
+            value={start}
+            onChange={(e) => setStart(e.target.value)}
+          >
             {startOptions.map((p) => (
-              <option key={p.value} value={p.value}>{p.label}</option>
+              <option key={p.value} value={p.value}>
+                {p.label}
+              </option>
             ))}
           </select>
         </label>
 
         <label>
           Destination
+
           <select
             value={destination}
             onChange={(e) => {
@@ -146,7 +195,11 @@ export default function DelhiMap() {
           </select>
         </label>
 
-        <button className="rs-route-button" onClick={buildRoute}>
+        <button
+          type="button"
+          className="rs-route-button"
+          onClick={buildRoute}
+        >
           Show route
         </button>
       </div>
@@ -161,12 +214,17 @@ export default function DelhiMap() {
           ["Route", showRoute, setShowRoute, "#19d39a"],
         ].map(([label, checked, setter, color]) => (
           <label className="rs-layer-chip" key={label}>
-            <span className="rs-layer-dot" style={{ background: color }} />
+            <span
+              className="rs-layer-dot"
+              style={{ background: color }}
+            />
+
             <input
               type="checkbox"
               checked={checked}
               onChange={(e) => setter(e.target.checked)}
             />
+
             {label}
           </label>
         ))}
@@ -180,12 +238,31 @@ export default function DelhiMap() {
           aria-label="Interactive architectural-style railway station schematic"
         >
           <defs>
-            <pattern id="rsGroundGrid" width="20" height="20" patternUnits="userSpaceOnUse">
-              <path d="M20 0H0V20" fill="none" stroke="#293b4d" strokeWidth=".6" />
+            <pattern
+              id="rsGroundGrid"
+              width="20"
+              height="20"
+              patternUnits="userSpaceOnUse"
+            >
+              <path
+                d="M20 0H0V20"
+                fill="none"
+                stroke="#293b4d"
+                strokeWidth=".6"
+              />
             </pattern>
 
-            <pattern id="rsBuildingFloor" width="12" height="12" patternUnits="userSpaceOnUse">
-              <path d="M0 12L12 0" stroke="#465b70" strokeWidth=".7" />
+            <pattern
+              id="rsBuildingFloor"
+              width="12"
+              height="12"
+              patternUnits="userSpaceOnUse"
+            >
+              <path
+                d="M0 12L12 0"
+                stroke="#465b70"
+                strokeWidth=".7"
+              />
             </pattern>
 
             <marker
@@ -201,82 +278,262 @@ export default function DelhiMap() {
           </defs>
 
           <rect width="1000" height="700" rx="12" fill="#101b29" />
-          <rect width="1000" height="700" fill="url(#rsGroundGrid)" />
+
+          <rect
+            width="1000"
+            height="700"
+            fill="url(#rsGroundGrid)"
+          />
 
           <text x="25" y="28" className="rs-svg-small">
             RAILSHIELD / STATION PLAN
           </text>
 
           {/* Main station building */}
-          <rect x="35" y="65" width="235" height="565" rx="8"
-            fill="#22364a" stroke="#8ba0b5" strokeWidth="2" />
-          <rect x="48" y="78" width="209" height="539" rx="5"
-            fill="url(#rsBuildingFloor)" stroke="#526a81" />
+          <rect
+            x="35"
+            y="65"
+            width="235"
+            height="565"
+            rx="8"
+            fill="#22364a"
+            stroke="#8ba0b5"
+            strokeWidth="2"
+          />
 
-          <rect x="65" y="100" width="175" height="75" rx="4"
-            fill="#304b61" stroke="#91a6ba" />
-          <text x="152" y="126" textAnchor="middle" className="rs-svg-label">
+          <rect
+            x="48"
+            y="78"
+            width="209"
+            height="539"
+            rx="5"
+            fill="url(#rsBuildingFloor)"
+            stroke="#526a81"
+          />
+
+          <rect
+            x="65"
+            y="100"
+            width="175"
+            height="75"
+            rx="4"
+            fill="#304b61"
+            stroke="#91a6ba"
+          />
+
+          <text
+            x="152"
+            y="126"
+            textAnchor="middle"
+            className="rs-svg-label"
+          >
             TICKET / ENTRY
           </text>
-          <text x="152" y="145" textAnchor="middle" className="rs-svg-small">
+
+          <text
+            x="152"
+            y="145"
+            textAnchor="middle"
+            className="rs-svg-small"
+          >
             MAIN HALL
           </text>
+
           <path d="M83 157H222" stroke="#8297aa" strokeWidth="2" />
 
-          <rect x="65" y="194" width="175" height="215" rx="4"
-            fill="#1a2b3c" stroke="#688096" />
-          <text x="152" y="220" textAnchor="middle" className="rs-svg-label">
+          <rect
+            x="65"
+            y="194"
+            width="175"
+            height="215"
+            rx="4"
+            fill="#1a2b3c"
+            stroke="#688096"
+          />
+
+          <text
+            x="152"
+            y="220"
+            textAnchor="middle"
+            className="rs-svg-label"
+          >
             CENTRAL CONCOURSE
           </text>
 
           {/* Concourse floor divisions */}
           {[0, 1, 2, 3, 4].map((n) => (
-            <path key={n} d={`M78 ${242 + n * 27}H227`}
-              stroke="#40586d" strokeWidth="1" />
+            <path
+              key={n}
+              d={`M78 ${242 + n * 27}H227`}
+              stroke="#40586d"
+              strokeWidth="1"
+            />
           ))}
 
-          <rect x="82" y="257" width="48" height="54" rx="3"
-            fill="#314a60" stroke="#8196a9" />
-          <text x="106" y="280" textAnchor="middle" className="rs-svg-small">INFO</text>
-          <text x="106" y="294" textAnchor="middle" className="rs-svg-small">DESK</text>
+          <rect
+            x="82"
+            y="257"
+            width="48"
+            height="54"
+            rx="3"
+            fill="#314a60"
+            stroke="#8196a9"
+          />
 
-          <rect x="145" y="257" width="77" height="54" rx="3"
-            fill="#314a60" stroke="#8196a9" />
-          <text x="183" y="280" textAnchor="middle" className="rs-svg-small">WAITING</text>
-          <text x="183" y="294" textAnchor="middle" className="rs-svg-small">AREA</text>
+          <text
+            x="106"
+            y="280"
+            textAnchor="middle"
+            className="rs-svg-small"
+          >
+            INFO
+          </text>
 
-          <rect x="82" y="330" width="140" height="50" rx="3"
-            fill="#314a60" stroke="#8196a9" />
-          <text x="152" y="351" textAnchor="middle" className="rs-svg-small">PASSENGER</text>
-          <text x="152" y="365" textAnchor="middle" className="rs-svg-small">CIRCULATION</text>
+          <text
+            x="106"
+            y="294"
+            textAnchor="middle"
+            className="rs-svg-small"
+          >
+            DESK
+          </text>
 
-          <rect x="65" y="430" width="175" height="75" rx="4"
-            fill="#304b61" stroke="#91a6ba" />
-          <text x="152" y="458" textAnchor="middle" className="rs-svg-label">
+          <rect
+            x="145"
+            y="257"
+            width="77"
+            height="54"
+            rx="3"
+            fill="#314a60"
+            stroke="#8196a9"
+          />
+
+          <text
+            x="183"
+            y="280"
+            textAnchor="middle"
+            className="rs-svg-small"
+          >
+            WAITING
+          </text>
+
+          <text
+            x="183"
+            y="294"
+            textAnchor="middle"
+            className="rs-svg-small"
+          >
+            AREA
+          </text>
+
+          <rect
+            x="82"
+            y="330"
+            width="140"
+            height="50"
+            rx="3"
+            fill="#314a60"
+            stroke="#8196a9"
+          />
+
+          <text
+            x="152"
+            y="351"
+            textAnchor="middle"
+            className="rs-svg-small"
+          >
+            PASSENGER
+          </text>
+
+          <text
+            x="152"
+            y="365"
+            textAnchor="middle"
+            className="rs-svg-small"
+          >
+            CIRCULATION
+          </text>
+
+          <rect
+            x="65"
+            y="430"
+            width="175"
+            height="75"
+            rx="4"
+            fill="#304b61"
+            stroke="#91a6ba"
+          />
+
+          <text
+            x="152"
+            y="458"
+            textAnchor="middle"
+            className="rs-svg-label"
+          >
             EXIT / DROP-OFF
           </text>
-          <text x="152" y="477" textAnchor="middle" className="rs-svg-small">
+
+          <text
+            x="152"
+            y="477"
+            textAnchor="middle"
+            className="rs-svg-small"
+          >
             STATION FORECOURT
           </text>
 
-          <rect x="65" y="527" width="175" height="70" rx="4"
-            fill="#1b2b3b" stroke="#617a91" />
-          <text x="152" y="552" textAnchor="middle" className="rs-svg-small">
+          <rect
+            x="65"
+            y="527"
+            width="175"
+            height="70"
+            rx="4"
+            fill="#1b2b3b"
+            stroke="#617a91"
+          />
+
+          <text
+            x="152"
+            y="552"
+            textAnchor="middle"
+            className="rs-svg-small"
+          >
             CONNECTING
           </text>
-          <text x="152" y="568" textAnchor="middle" className="rs-svg-small">
+
+          <text
+            x="152"
+            y="568"
+            textAnchor="middle"
+            className="rs-svg-small"
+          >
             WALKWAY
           </text>
 
           {/* Walkway from concourse to platforms */}
-          <path d="M240 350 L320 350" stroke="#627d92" strokeWidth="24" />
-          <path d="M240 350 L320 350" stroke="#b4c4d2" strokeWidth="1.5"
-            strokeDasharray="5 5" />
-          <text x="280" y="331" textAnchor="middle" className="rs-svg-small">
+          <path
+            d="M240 350 L320 350"
+            stroke="#627d92"
+            strokeWidth="24"
+          />
+
+          <path
+            d="M240 350 L320 350"
+            stroke="#b4c4d2"
+            strokeWidth="1.5"
+            strokeDasharray="5 5"
+          />
+
+          <text
+            x="280"
+            y="331"
+            textAnchor="middle"
+            className="rs-svg-small"
+          >
             WALKWAY
           </text>
 
-          {/* Parallel track corridors and angled platforms */}
+          {/* Platforms and tracks */}
           {platforms.map((p) => {
             const y = p.y;
             const selected = p.id === destinationNumber;
@@ -311,6 +568,7 @@ export default function DelhiMap() {
                   stroke="#8b9aa8"
                   strokeWidth="2"
                 />
+
                 <path
                   d={`M324 ${y + 25} L880 ${y - 15}`}
                   stroke="#53677a"
@@ -333,22 +591,37 @@ export default function DelhiMap() {
                   strokeDasharray="5 4"
                 />
 
-                {/* Platform number plaque */}
+                {/* Platform number */}
                 <g transform={`translate(345 ${y - 10})`}>
-                  <rect x="-16" y="-12" width="32" height="23" rx="3"
-                    fill={selected ? "#19d39a" : "#dce7f0"} />
-                  <text x="0" y="4" textAnchor="middle"
-                    fontSize="12" fontWeight="900"
-                    fill="#102030">
+                  <rect
+                    x="-16"
+                    y="-12"
+                    width="32"
+                    height="23"
+                    rx="3"
+                    fill={selected ? "#19d39a" : "#dce7f0"}
+                  />
+
+                  <text
+                    x="0"
+                    y="4"
+                    textAnchor="middle"
+                    fontSize="12"
+                    fontWeight="900"
+                    fill="#102030"
+                  >
                     {p.id}
                   </text>
                 </g>
 
-                <text x="375" y={y - 12} className="rs-platform-name">
+                <text
+                  x="375"
+                  y={y - 12}
+                  className="rs-platform-name"
+                >
                   PLATFORM {p.id}
                 </text>
 
-                {/* Clickable platform highlight */}
                 {selected && (
                   <polygon
                     points={`315,${y - 5} 845,${y - 43} 865,${y - 25} 335,${y + 13}`}
@@ -361,63 +634,97 @@ export default function DelhiMap() {
             );
           })}
 
-          {/* Cross-platform footbridge */}
+          {/* Passenger footbridge */}
           <polygon
             points="475,65 515,62 557,620 517,623"
             fill="#344e65"
             stroke="#b0c2d1"
             strokeWidth="2"
           />
-          <path d="M492 70 L534 615"
-            stroke="#c3d0dc" strokeWidth="2" strokeDasharray="6 6" />
+
+          <path
+            d="M492 70 L534 615"
+            stroke="#c3d0dc"
+            strokeWidth="2"
+            strokeDasharray="6 6"
+          />
 
           <text
-            x="518" y="65"
+            x="518"
+            y="65"
             transform="rotate(85 518 65)"
             className="rs-svg-small"
           >
             PASSENGER FOOTBRIDGE
           </text>
 
-          {/* Stair access points along the footbridge */}
+          {/* Footbridge stair access */}
           {platforms.map((p) => (
             <g key={`stairs-${p.id}`}>
               <path
-                d={`M${490 + (p.y - 95) * .075} ${p.y - 4}
+                d={`M${490 + (p.y - 95) * 0.075} ${p.y - 4}
                     l17 -8 l4 8 l-17 8 z`}
                 fill="#9aafc1"
                 stroke="#d0dbe4"
                 strokeWidth="1"
               />
+
               <path
-                d={`M${494 + (p.y - 95) * .075} ${p.y - 4} l8 -4
-                    M${497 + (p.y - 95) * .075} ${p.y - 1} l8 -4`}
+                d={`M${494 + (p.y - 95) * 0.075} ${p.y - 4} l8 -4
+                    M${497 + (p.y - 95) * 0.075} ${p.y - 1} l8 -4`}
                 stroke="#243647"
                 strokeWidth="1"
               />
             </g>
           ))}
 
-          {/* Trains drawn along selected track sections */}
-          {showTrains && [2, 5, 8, 11, 14].map((id) => {
-            const p = platforms.find((x) => x.id === id);
-            const y = p.y - 18;
+          {/* Demo trains */}
+          {showTrains &&
+            [2, 5, 8, 11, 14].map((id) => {
+              const p = platforms.find((x) => x.id === id);
+              const y = p.y - 18;
 
-            return (
-              <g key={`train-${id}`} transform={`translate(610 ${y}) rotate(-4)`}>
-                <rect x="0" y="-7" width="205" height="14" rx="4"
-                  fill="#1878b9" stroke="#8bd6ff" strokeWidth="1.3" />
-                {[0, 1, 2, 3, 4, 5, 6].map((n) => (
-                  <rect key={n} x={12 + n * 26} y="-4"
-                    width="17" height="6" rx="1" fill="#c2edff" />
-                ))}
-                <rect x="192" y="-5" width="7" height="10" rx="1"
-                  fill="#ffd166" />
-              </g>
-            );
-          })}
+              return (
+                <g
+                  key={`train-${id}`}
+                  transform={`translate(610 ${y}) rotate(-4)`}
+                >
+                  <rect
+                    x="0"
+                    y="-7"
+                    width="205"
+                    height="14"
+                    rx="4"
+                    fill="#1878b9"
+                    stroke="#8bd6ff"
+                    strokeWidth="1.3"
+                  />
 
-          {/* Green route drawn on top of the architecture */}
+                  {[0, 1, 2, 3, 4, 5, 6].map((n) => (
+                    <rect
+                      key={n}
+                      x={12 + n * 26}
+                      y="-4"
+                      width="17"
+                      height="6"
+                      rx="1"
+                      fill="#c2edff"
+                    />
+                  ))}
+
+                  <rect
+                    x="192"
+                    y="-5"
+                    width="7"
+                    height="10"
+                    rx="1"
+                    fill="#ffd166"
+                  />
+                </g>
+              );
+            })}
+
+          {/* Demo route */}
           {showRoute && (
             <g className="rs-route-drawing">
               <polyline
@@ -428,6 +735,7 @@ export default function DelhiMap() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
+
               <polyline
                 points={routePoints}
                 fill="none"
@@ -440,15 +748,38 @@ export default function DelhiMap() {
                 markerEnd="url(#rsRouteArrow)"
               />
 
-              <circle cx={startPoint.x} cy={startPoint.y}
-                r="10" fill="#38a9ff" stroke="#fff" strokeWidth="3" />
-              <text x={startPoint.x + 14} y={startPoint.y - 14}
-                className="rs-svg-label">START</text>
+              <circle
+                cx={startPoint.x}
+                cy={startPoint.y}
+                r="10"
+                fill="#38a9ff"
+                stroke="#fff"
+                strokeWidth="3"
+              />
 
-              <circle cx="850" cy={dest.y - 26}
-                r="10" fill="#19d39a" stroke="#fff" strokeWidth="3" />
-              <text x="845" y={dest.y - 47}
-                textAnchor="end" className="rs-svg-label">
+              <text
+                x={startPoint.x + 14}
+                y={startPoint.y - 14}
+                className="rs-svg-label"
+              >
+                START
+              </text>
+
+              <circle
+                cx="850"
+                cy={dest.y - 26}
+                r="10"
+                fill="#19d39a"
+                stroke="#fff"
+                strokeWidth="3"
+              />
+
+              <text
+                x="845"
+                y={dest.y - 47}
+                textAnchor="end"
+                className="rs-svg-label"
+              >
                 PLATFORM {destinationNumber}
               </text>
             </g>
@@ -457,19 +788,32 @@ export default function DelhiMap() {
           {/* Toggleable demo safety markers */}
           {visibleFacilities.map((f) => (
             <g key={f.id} className="rs-facility-marker">
-              <circle cx={f.x} cy={f.y} r="13"
-                fill={COLORS[f.type]} stroke="#fff" strokeWidth="2" />
-              <text x={f.x} y={f.y + 4}
-                textAnchor="middle" fontSize="12" fontWeight="900"
-                fill="#101b29">
+              <circle
+                cx={f.x}
+                cy={f.y}
+                r="13"
+                fill={COLORS[f.type]}
+                stroke="#fff"
+                strokeWidth="2"
+              />
+
+              <text
+                x={f.x}
+                y={f.y + 4}
+                textAnchor="middle"
+                fontSize="12"
+                fontWeight="900"
+                fill="#101b29"
+              >
                 {{
                   cctv: "C",
                   light: "L",
                   help: "H",
                   rpf: "R",
-                  crowd: "!"
+                  crowd: "!",
                 }[f.type]}
               </text>
+
               <title>{f.label} — illustrative demo marker</title>
             </g>
           ))}
@@ -477,31 +821,111 @@ export default function DelhiMap() {
           <text x="35" y="665" className="rs-svg-small">
             ENTRANCE / CONCOURSE SIDE
           </text>
-          <text x="965" y="665" textAnchor="end" className="rs-svg-small">
+
+          <text
+            x="965"
+            y="665"
+            textAnchor="end"
+            className="rs-svg-small"
+          >
             PLATFORM END
           </text>
         </svg>
       </div>
 
+      {/* Map legend */}
       <div className="rs-map-legend">
-        <span><i className="rs-legend-dot" style={{ background: "#19d39a" }} /> Demo route</span>
-        <span><i className="rs-legend-dot" style={{ background: "#38a9ff" }} /> Starting point</span>
-        <span><i className="rs-legend-dot" style={{ background: "#b59aff" }} /> CCTV / help / RPF</span>
-        <span><i className="rs-legend-dot" style={{ background: "#ffd166" }} /> Platform edge / caution</span>
-        <span><i className="rs-legend-dot" style={{ background: "#ff5c69" }} /> Crowd-risk demo</span>
+        <span>
+          <i
+            className="rs-legend-dot"
+            style={{ background: "#19d39a" }}
+          />
+          Demo route
+        </span>
+
+        <span>
+          <i
+            className="rs-legend-dot"
+            style={{ background: "#38a9ff" }}
+          />
+          Starting point
+        </span>
+
+        <span>
+          <i
+            className="rs-legend-dot"
+            style={{ background: "#b59aff" }}
+          />
+          CCTV / help / RPF
+        </span>
+
+        <span>
+          <i
+            className="rs-legend-dot"
+            style={{ background: "#ffd166" }}
+          />
+          Platform edge / caution
+        </span>
+
+        <span>
+          <i
+            className="rs-legend-dot"
+            style={{ background: "#ff5c69" }}
+          />
+          Crowd-risk demo
+        </span>
       </div>
 
+      {/* Route directions */}
       <div className="rs-directions">
         <div className="rs-directions-heading">
           <div>
             <p>YOUR ROUTE</p>
-            <h3>To Platform {destinationNumber}</h3>
+
+            <h3>
+              {startPoint.label} → Platform {destinationNumber}
+            </h3>
           </div>
+
           <span className="rs-route-badge">DEMO ROUTE</span>
         </div>
+
+        <div className="rs-route-summary">
+          <span>🟢 Route generated</span>
+          <span>📍 {routeInstructions.length} steps</span>
+          <span>🛡️ Demo safety markers</span>
+        </div>
+
+        <div className="rs-turn-list">
+          {routeInstructions.map((step, index) => (
+            <div className="rs-turn-step" key={step.title}>
+              <div className="rs-turn-icon">{step.icon}</div>
+
+              <div className="rs-turn-content">
+                <span className="rs-turn-number">
+                  STEP {index + 1}
+                </span>
+
+                <h4>{step.title}</h4>
+
+                <p>{step.detail}</p>
+              </div>
+
+              {index < routeInstructions.length - 1 && (
+                <span
+                  className="rs-turn-connector"
+                  aria-hidden="true"
+                />
+              )}
+            </div>
+          ))}
+        </div>
+
         <p className="rs-route-status">{notice}</p>
-        <p className="rs-route-status">
-          The route is illustrative and does not represent verified indoor directions.
+
+        <p className="rs-route-disclaimer">
+          Demo navigation only. Directions and safety markers are
+          illustrative, not verified indoor station navigation.
         </p>
       </div>
     </section>
