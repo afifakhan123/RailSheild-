@@ -689,3 +689,33 @@ nav {
   width: 100%;
   max-width: none;
 }
+/* FIX: Make the map panel span the entire dashboard grid */
+.content-grid > .panel:has(.rs-station-card) {
+  grid-column: 1 / -1 !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+}
+
+/* Let the map fill the expanded panel */
+.content-grid > .panel:has(.rs-station-card) .rs-station-card {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+}
+
+/* Use the full available width for the map */
+.content-grid > .panel:has(.rs-station-card) .rs-schematic-wrap {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+}
+
+/* Keep the map proportional */
+.content-grid > .panel:has(.rs-station-card) .rs-station-svg {
+  display: block;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+}
