@@ -675,3 +675,17 @@ nav {
   .metric-card { padding: 13px; }
   .metric-value strong { font-size: 27px; }
 }
+.dashboard-main {
+  min-width: 0;
+}
+
+.dashboard-panel {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+.dashboard-panel:has(.rs-station-card) {
+  width: 100%;
+  max-width: none;
+}
