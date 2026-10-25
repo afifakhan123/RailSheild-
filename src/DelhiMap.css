@@ -1,0 +1,384 @@
+
+.rs-station-card {
+  width: 100%;
+  min-width: 0;
+  padding: 20px;
+  box-sizing: border-box;
+  border: 1px solid #2b3d53;
+  border-radius: 18px;
+  background: #101a29;
+  color: #edf4ff;
+}
+
+.rs-station-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.rs-station-eyebrow {
+  color: #42dfad;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.rs-station-header h2 {
+  margin: 8px 0 4px;
+  font-size: clamp(19px, 2.4vw, 26px);
+}
+
+.rs-station-header p {
+  color: #9eafc5;
+  font-size: 12px;
+  margin: 5px 0 0;
+}
+
+.rs-location-button,
+.rs-route-button {
+  padding: 11px 15px;
+  border: 1px solid #27d6a0;
+  border-radius: 9px;
+  background: #153c34;
+  color: #83f2ce;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.rs-demo-warning {
+  margin: 17px 0;
+  padding: 12px;
+  border: 1px solid #6c5a2b;
+  border-radius: 10px;
+  background: #2b271a;
+  color: #efdda0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.rs-station-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.rs-station-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #aebed1;
+  font-size: 11px;
+}
+
+.rs-station-controls select {
+  min-width: 175px;
+  max-width: 100%;
+  padding: 10px;
+  border: 1px solid #344a63;
+  border-radius: 8px;
+  background: #19283a;
+  color: #f1f5fb;
+}
+
+.rs-layer-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.rs-layer-chip {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 10px;
+  border: 1px solid #33475d;
+  border-radius: 20px;
+  background: #19283a;
+  color: #d5e1ef;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.rs-layer-chip input {
+  accent-color: #21d6a0;
+}
+
+.rs-layer-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.rs-schematic-wrap {
+  overflow: auto;
+  border: 1px solid #334a60;
+  border-radius: 13px;
+  background: #101b2b;
+}
+
+.rs-station-svg {
+  display: block;
+  width: 100%;
+  min-width: 680px;
+  height: auto;
+}
+
+.rs-svg-small {
+  fill: #8fa4bb;
+  font-size: 10px;
+  letter-spacing: 1.3px;
+}
+
+.rs-svg-label {
+  fill: #eaf3ff;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.rs-platform-number {
+  fill: #17283b;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.rs-platform-name {
+  fill: #e1eaf5;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.rs-map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  margin-top: 15px;
+  color: #b7c5d8;
+  font-size: 11px;
+}
+
+.rs-map-legend span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.rs-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.rs-route-status {
+  margin-top: 14px;
+  padding: 11px 12px;
+  border-left: 3px solid #19b878;
+  border-radius: 5px;
+  background: #172d2b;
+  color: #9cebd0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .rs-station-card {
+    padding: 12px;
+  }
+
+  .rs-station-controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .rs-station-controls select {
+    width: 100%;
+  }
+
+  .rs-station-svg {
+    min-width: 680px;
+  }
+}
+
+.rs-directions {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid #30465b;
+  border-radius: 14px;
+  background: #142235;
+}
+
+.rs-directions-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.rs-directions-heading p {
+  margin: 0 0 6px;
+  color: #56dfb0;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+
+.rs-directions-heading h3 {
+  margin: 0;
+  color: #f2f6ff;
+  font-size: 18px;
+}
+
+.rs-route-badge {
+  padding: 6px 9px;
+  border: 1px solid #247c5c;
+  border-radius: 20px;
+  background: #183d32;
+  color: #70e8bb;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.rs-directions ol {
+  display: grid;
+  gap: 14px;
+  padding: 0;
+  margin: 20px 0;
+  list-style: none;
+}
+
+.rs-directions li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.rs-directions li > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #1a5945;
+  color: #80f1c8;
+  font-weight: 800;
+}
+
+.rs-directions li strong {
+  color: #f1f5fc;
+  font-size: 13px;
+}
+
+.rs-directions li p {
+  margin: 5px 0 0;
+  color: #aabbd0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.rs-architecture {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-width: 760px;
+  background: #101b29;
+}
+
+.rs-schematic-wrap {
+  width: 100%;
+  overflow: auto;
+  border: 1px solid #34495e;
+  border-radius: 12px;
+  background: #101b29;
+  scrollbar-color: #526b81 #172536;
+}
+
+.rs-platform-group {
+  outline: none;
+}
+
+.rs-platform-group:hover polygon:first-child {
+  stroke: #8ddfc8;
+}
+
+.rs-platform-group:focus-visible polygon {
+  stroke: #ffffff;
+  stroke-width: 3;
+}
+
+.rs-route-drawing {
+  pointer-events: none;
+}
+
+.rs-route-drawing polyline:last-of-type {
+  animation: rs-route-flow 1.4s linear infinite;
+}
+
+.rs-facility-marker {
+  cursor: help;
+}
+
+.rs-platform-name {
+  fill: #edf4fa;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  paint-order: stroke;
+  stroke: #203144;
+  stroke-width: 2px;
+  stroke-linejoin: round;
+}
+
+.rs-svg-label {
+  fill: #edf5fb;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+}
+
+.rs-svg-small {
+  fill: #a8bdce;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.rs-route-status {
+  color: #b7c8d8;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+@keyframes rs-route-flow {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+@media (max-width: 700px) {
+  .rs-architecture {
+    min-width: 760px;
+  }
+
+  .rs-station-header {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .rs-station-controls {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rs-route-drawing polyline:last-of-type {
+    animation: none;
+  }
+}
